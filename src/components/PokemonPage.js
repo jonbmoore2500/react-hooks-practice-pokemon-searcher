@@ -21,12 +21,26 @@ function PokemonPage() {
     setPokemonArr(filteredPokemonArr)
   }
 
+  function addNewPokemon(newPokemonObj) {
+    fetch('http://localhost:3001/pokemon', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newPokemonObj)
+    })
+    .then(r => r.json())
+    .then(data => {
+      setPokemonArr([...pokemonArr, data])
+      setPokemonHelper([...pokemonHelper, data])
+    })
+  }
 
   return (
     <Container>
       <h1>Pokemon Searcher</h1>
       <br />
-      <PokemonForm />
+      <PokemonForm addNewPokemon={addNewPokemon}/>
       <br />
       <Search handleFilter={handleFilter}/>
       <br />
